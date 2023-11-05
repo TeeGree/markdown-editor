@@ -1,0 +1,47 @@
+@import './variables';
+
+.app {
+    text-align: center;
+    background-color: #282c34;
+    min-height: 100vh;
+    overflow-x: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.appContent {
+    position: fixed;
+    top: $headerHeight;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - $headerHeight);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fillScreen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    width: 100%;
+}
+
+.markdownEditorContainer {
+    position: absolute;
+    top: 20px;
+    width: 80%;
+    height: 80%;
+    background-color: white;
+    text-align: left;
+
+    .markdownEditor {
+        max-width: 100%;
+        display: block;
+    }
+}
