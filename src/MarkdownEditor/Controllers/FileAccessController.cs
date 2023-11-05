@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace MarkdownEditor.Controllers
 {
@@ -6,6 +7,8 @@ namespace MarkdownEditor.Controllers
     [Route("[controller]")]
     public sealed class FileAccessController : ControllerBase
     {
+        public record UpdateMarkdownBody([Required] string markdown);
+
         private readonly ILogger<FileAccessController> _logger;
         private readonly IFileAccessService _fileAccessService;
 
@@ -21,6 +24,21 @@ namespace MarkdownEditor.Controllers
             try
             {
                 return Ok(_fileAccessService.GetMarkdown());
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return Problem(e.Message);
+            }
+        }
+
+        [HttpPut("UpdateMarkdown", Name = "UpdateMarkdown")]
+        public ActionResult UpdateMarkdown(UpdateMarkdownBody markdownBody)
+        {
+            try
+            {
+                _fileAccessService.PutMarkdown(markdownBody.markdown);
+                return Ok();
             }
             catch (Exception e)
             {

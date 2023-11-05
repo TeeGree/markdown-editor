@@ -42,6 +42,13 @@
 
     .markdownEditor {
         max-width: 100%;
+        height: calc(100% - 55px);
         display: block;
+    }
+
+    .save {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
     }
 }

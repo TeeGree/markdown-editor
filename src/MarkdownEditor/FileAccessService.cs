@@ -3,6 +3,7 @@
     public interface IFileAccessService
     {
         string GetMarkdown();
+        void PutMarkdown(string markdown);
     }
     public sealed class FileAccessService : IFileAccessService
     {
@@ -10,13 +11,19 @@
 
         public string GetMarkdown()
         {
-            string installLocationFileFilePath = Path.Combine(AppContext.BaseDirectory, MarkdownFileName);
-            if (File.Exists(installLocationFileFilePath))
+            string activeMarkdownFilePath = Path.Combine(AppContext.BaseDirectory, MarkdownFileName);
+            if (File.Exists(activeMarkdownFilePath))
             {
-                string markdown = File.ReadAllText(installLocationFileFilePath);
+                string markdown = File.ReadAllText(activeMarkdownFilePath);
                 return markdown;
             }
             return string.Empty;
+        }
+
+        public void PutMarkdown(string markdown)
+        {
+            string activeMarkdownFilePath = Path.Combine(AppContext.BaseDirectory, MarkdownFileName);
+            File.WriteAllText(activeMarkdownFilePath, markdown);
         }
     }
 }

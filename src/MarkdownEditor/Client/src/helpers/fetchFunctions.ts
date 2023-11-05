@@ -57,6 +57,27 @@ export const fetchPostResponse = async (apiPath: string, body?: any): Promise<Re
     return response;
 };
 
+export const fetchPutResponse = async (apiPath: string, body?: any): Promise<Response> => {
+    const url = getApiPath(apiPath);
+
+    const requestInit: RequestInit = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            mode: 'no-cors',
+        },
+        credentials: 'include',
+    };
+
+    if (body !== undefined) {
+        requestInit.body = JSON.stringify(body);
+    }
+
+    const response = await fetch(url, requestInit);
+
+    return response;
+};
+
 export const fetchPost = async <T>(apiPath: string, body?: any) => {
     const result = await fetchPostResponse(apiPath, body);
 

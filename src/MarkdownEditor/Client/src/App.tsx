@@ -13,7 +13,7 @@ import {
     DiffSourceToggleWrapper,
     diffSourcePlugin,
 } from '@mdxeditor/editor';
-import { fetchGetResponse } from './helpers/fetchFunctions';
+import { fetchGetResponse, fetchPutResponse } from './helpers/fetchFunctions';
 import '@mdxeditor/editor/style.css';
 import { Button } from '@mui/material';
 
@@ -31,6 +31,18 @@ export const App: React.FC<Record<string, never>> = () => {
         setIsLoading(false);
     };
 
+    const saveMarkdown = async () => {
+        const result = await fetchPutResponse('FileAccess/UpdateMarkdown', {
+            markdown: ref.current?.getMarkdown(),
+        });
+
+        if (result.ok) {
+            setIsLoading(true);
+
+            await getMarkdown();
+        }
+    };
+
     useEffect(() => {
         setIsLoading(true);
         getMarkdown();
@@ -46,12 +58,6 @@ export const App: React.FC<Record<string, never>> = () => {
 
         return (
             <>
-                <Button onClick={() => ref.current?.setMarkdown('new markdown')}>
-                    Set new markdown
-                </Button>
-                <Button onClick={() => console.log(ref.current?.getMarkdown())}>
-                    Get markdown
-                </Button>
                 <div className={classes.markdownEditorContainer}>
                     <MDXEditor
                         className={classes.markdownEditor}
@@ -79,6 +85,14 @@ export const App: React.FC<Record<string, never>> = () => {
                         ]}
                         onChange={console.log}
                     />
+                    <Button
+                        variant="contained"
+                        color="success"
+                        className={classes.save}
+                        onClick={saveMarkdown}
+                    >
+                        Save markdown
+                    </Button>
                 </div>
             </>
         );
